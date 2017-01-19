@@ -1,2 +1,44 @@
 ---
-# tasks file for ansible-database-partition-roller
+- name: Install dependencies
+  yum:
+    name: "{{ item }}"
+  with_items: "{{ database_partition_roller_yum_dependencies }}"
+
+- name: Install tool
+  yum:
+    name: "{{ database_partition_roller_yum_tool }}"
+  when: database_partition_roller_installed
+
+- name: Configure tool
+  copy:
+    content: "{{ item.value }}"
+    dest: "{{ database_partition_roller_dir_config }}/{{ item.key }}"
+    mode: 0440
+    owner: "{{ database_partition_roller_user }}"
+    group: "{{ database_partition_roller_group }}"
+    force: yes
+    backup: yes
+  with_dict: "{{ database_partition_roller_config }}"
+  when: database_partition_roller_installed
+
+- name: Ensure ownership
+  file:
+    path: "{{ database_partition_roller_dir_base }}"
+    owner: "{{ database_partition_roller_user }}"
+    group: "{{ database_partition_roller_group }}"
+    state: directory
+    recurse: yes
+  when: database_partition_roller_installed
+
+- name: Schedule tool
+  cron:
+    job: "{{ database_partition_roller_cron_job }}"
+    user: "{{ database_partition_roller_user }}"
+    state: "present"
+    disabled: "{{ not database_partition_roller_cron }}"
+    month: "{{ database_partition_roller_cron_month }}"
+    weekday: "{{ database_partition_roller_cron_weekday }}"
+    day: "{{ database_partition_roller_cron_day }}"
+    hour: "{{ database_partition_roller_cron_hour }}"
+    minute: "{{ database_partition_roller_cron_minute }}"
+  when: database_partition_roller_installed
