@@ -1,2 +1,83 @@
 ---
-# defaults file for ansible-database-partition-roller
+# Collections of externally managed configuration files
+database_partition_roller_config:
+  "application.yml": |
+    ---
+    logging:
+      level:
+        com.bandwidth.engineering.database_partition_roller.App: INFO
+    
+    partitionConfiguration:
+      items:
+        - dataSourceProperties:
+            driverClassName: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://<< YOUR HOST >>?useSSL=false
+            username: << YOUR USERNAME >>
+            password: << YOUR PASSWORD >>
+          daysAddAhead: 2
+          daysDropAfter: 2
+          expression: DAYS
+          interval: DAILY
+          database: << YOUR DATABASE >>
+          table: << YOUR TABLE >>
+          readOnly: false
+        - dataSourceProperties:
+            driverClassName: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://<< YOUR HOST >>?useSSL=false
+            username: << YOUR USERNAME >>
+            password: << YOUR PASSWORD >>
+          daysAddAhead: 2
+          daysDropAfter: 2
+          expression: TIMESTAMP
+          interval: HOURLY
+          database: << YOUR DATABASE >>
+          table: << YOUR TABLE >>
+          readOnly: false
+
+# Whether tool is scheduled to run
+database_partition_roller_cron: false
+
+# Day of the month when database partition roller should run (1-31, *, */2, etc)
+database_partition_roller_cron_day:
+
+# Hour of the day when database partition roller should run (0-23, *, */2, etc)
+database_partition_roller_cron_hour:
+
+# Command to execute
+database_partition_roller_cron_job:
+
+# Minute of the hour when database partition roller should run (0-59, *, */2, etc)
+database_partition_roller_cron_minute:
+
+# Month of the year when database partition roller should run (1-12, *, */2, etc)
+database_partition_roller_cron_month:
+
+# Day of the week when database partition roller should run (0-6 for Sunday-Saturday, *, etc)
+database_partition_roller_cron_weekday:
+
+# Path to directory encompassing database partition roller 
+database_partition_roller_dir_base: /usr/local/database_partition_roller
+
+# Path to directory containing configuration files generated from database_partition_roller_config
+database_partition_roller_dir_config: "{{ database_partition_roller_dir_current }}/config"
+
+# Path to directory containing current release
+database_partition_roller_dir_current: "{{ database_partition_roller_dir_base }}/releases/current"
+
+# Group owning database partition roller
+database_partition_roller_group: root
+
+# Whether tool is installed
+database_partition_roller_installed: true
+
+# User owning database partition roller and executed as
+database_partition_roller_user: root
+
+# Name of yum package
+database_partition_roller_yum_dependencies:
+  - java-1.8.0-openjdk       # database_partition_roller
+  - java-1.8.0-openjdk-devel # build
+  - maven                    # build
+  - rpm-build                # build
+
+database_partition_roller_yum_tool: database_partition_roller
