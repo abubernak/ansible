@@ -2,13 +2,11 @@
 - name: Install dependencies
   yum:
     name: "{{ item }}"
-    state: latest
   with_items: "{{ database_partition_roller_yum_dependencies }}"
 
 - name: Install tool
-  yum: 
+  yum:
     name: "{{ database_partition_roller_yum_tool }}"
-    state: "latest"
   when: database_partition_roller_installed
 
 - name: Configure tool
@@ -29,7 +27,8 @@
     owner: "{{ database_partition_roller_user }}"
     group: "{{ database_partition_roller_group }}"
     state: directory
-    recursive: yes
+    recurse: yes
+  when: database_partition_roller_installed
 
 - name: Schedule tool
   cron:
