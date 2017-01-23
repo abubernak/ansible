@@ -44,7 +44,7 @@ database_partition_roller_cron_day:
 database_partition_roller_cron_hour:
 
 # Command to execute
-database_partition_roller_cron_job:
+database_partition_roller_cron_job: "{{ database_partition_roller_dir_current }}/lib/database_partition_roller.jar"
 
 # Minute of the hour when database partition roller should run (0-59, *, */2, etc)
 database_partition_roller_cron_minute:
@@ -73,11 +73,12 @@ database_partition_roller_installed: true
 # User owning database partition roller and executed as
 database_partition_roller_user: root
 
-# Name of yum package
+# Names of yum packages for tool dependencies
 database_partition_roller_yum_dependencies:
   - java-1.8.0-openjdk       # database_partition_roller
   - java-1.8.0-openjdk-devel # build
   - maven                    # build
   - rpm-build                # build
 
+# Name of yum package for tool
 database_partition_roller_yum_tool: database_partition_roller
