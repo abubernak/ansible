@@ -44,7 +44,7 @@ database_partition_roller_cron_day:
 database_partition_roller_cron_hour:
 
 # Command to execute
-database_partition_roller_cron_job: "{{ database_partition_roller_dir_current }}/lib/database_partition_roller.jar"
+database_partition_roller_cron_job: "{{ database_partition_roller_dir_current }}/database_partition_roller.jar"
 
 # Minute of the hour when database partition roller should run (0-59, *, */2, etc)
 database_partition_roller_cron_minute:
