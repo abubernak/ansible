@@ -33,6 +33,22 @@ database_partition_roller_config:
           database: << YOUR DATABASE >>
           table: << YOUR TABLE >>
           readOnly: false
+  "logback-spring.xml": |
+    <configuration>
+            <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                    <encoder>
+                            <pattern>%d [%t] %highlight(%-5p) %yellow(%c) - %m%n</pattern>
+                    </encoder>
+                    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                            <fileNamePattern>application.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+                            <maxHistory>30</maxHistory>
+                    </rollingPolicy>
+            </appender>
+            <logger name="com.bandwidth.engineering.database_partition_roller" level="INFO" />
+            <root level="WARN">
+                    <appender-ref ref="FILE" />
+            </root>
+    </configuration>
 
 # Whether tool is scheduled to run
 database_partition_roller_cron: false

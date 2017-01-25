@@ -1,0 +1,43 @@
+---
+- name: Install tool
+  yum:
+    name: "{{ database_partition_roller_yum_tool }}"
+
+- name: Configure tool
+  copy:
+    content: "{{ item.value }}"
+    dest: "{{ database_partition_roller_dir_config }}/{{ item.key }}"
+    mode: 0440
+    owner: "{{ database_partition_roller_user }}"
+    group: "{{ database_partition_roller_group }}"
+    force: yes
+    backup: yes
+  with_dict: "{{ database_partition_roller_config }}"
+
+- name: Ensure ownership
+  file:
+    path: "{{ database_partition_roller_dir_base }}"
+    owner: "{{ database_partition_roller_user }}"
+    group: "{{ database_partition_roller_group }}"
+    state: directory
+    recurse: yes
+
+- name: Setup cron env
+  cron:
+    cron_file: database_partition_roller
+    env: yes
+    name: LOGGING_CONFIG
+    value: "config/logback-spring.xml"
+
+- name: Schedule cron
+  cron:
+    cron_file: database_partition_roller
+    job: "{{ database_partition_roller_cron_job }}"
+    user: "{{ database_partition_roller_user }}"
+    state: "present"
+    disabled: "{{ not database_partition_roller_cron }}"
+    month: "{{ database_partition_roller_cron_month }}"
+    weekday: "{{ database_partition_roller_cron_weekday }}"
+    day: "{{ database_partition_roller_cron_day }}"
+    hour: "{{ database_partition_roller_cron_hour }}"
+    minute: "{{ database_partition_roller_cron_minute }}"
