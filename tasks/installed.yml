@@ -37,6 +37,7 @@
     job: "{{ database_partition_roller_cron_job }}"
     user: "{{ database_partition_roller_user }}"
     state: "present"
+    name: Execute database_partition_roller tool to add new partitions and drop old partitions based on configured rules
     disabled: "{{ not database_partition_roller_cron }}"
     month: "{{ database_partition_roller_cron_month }}"
     weekday: "{{ database_partition_roller_cron_weekday }}"
