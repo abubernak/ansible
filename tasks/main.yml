@@ -4,6 +4,12 @@
     name: "{{ item }}"
   with_items: "{{ database_partition_roller_yum_dependencies }}"
 
+- name: Install build dependencies
+  yum:
+    name: "{{ item }}"
+  with_items: "{{ database_partition_roller_yum_dependencies_build }}"
+  when: database_partition_roller_yum_dependencies_build_installed
+
 - name: Install tool
   include: installed.yml
   when: database_partition_roller_installed

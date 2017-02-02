@@ -92,9 +92,13 @@ database_partition_roller_user: root
 # Names of yum packages for tool dependencies
 database_partition_roller_yum_dependencies:
   - java-1.8.0-openjdk       # database_partition_roller
+
+database_partition_roller_yum_dependencies_build:
   - java-1.8.0-openjdk-devel # build
   - maven                    # build
   - rpm-build                # build
+
+database_partition_roller_yum_dependencies_build_installed: false
 
 # Name of yum package for tool
 database_partition_roller_yum_tool: database_partition_roller
