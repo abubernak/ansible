@@ -28,8 +28,9 @@
     env: yes
     user: "{{ database_partition_roller_user }}"
     state: "present"
-    name: LOGGING_CONFIG
-    value: "config/logback-spring.xml"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  with_items: "{{ database_partition_roller_cron_job_env }}"
 
 - name: Schedule cron
   cron:
