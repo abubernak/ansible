@@ -3,10 +3,6 @@
 database_partition_roller_config:
   "application.yml": |
     ---
-    logging:
-      level:
-        com.bandwidth.engineering.database_partition_roller.App: INFO
-    
     partitionConfiguration:
       items:
         - dataSourceProperties:
